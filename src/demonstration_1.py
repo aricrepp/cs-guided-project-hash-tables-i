@@ -24,25 +24,61 @@ hash_table.remove("b");         // remove the mapping for 2
 hash_table.get("b");            // returns -1 (not found)
 ```
 """
+
+
 class ListNode:
     def __init__(self, key, value):
         self.key = key
         self.value = value
         self.next = None
 
+
 class MyHashTable:
     def __init__(self):
         # Your code here
-
+        self.array = [None] * 20
+        pass
 
     def put(self, key, value):
-        # Your code here
+        """ 
+        We need an array to store the values in
+        Need to turn the key to index
+        Hash the key (map it to an integer in a finite space)
+        """
+        hashed_key = hash(key)
 
+        # Map the hashed key to an index in the array by len(array)
+        index = hashed_key % len(self.array)
+
+        # Put the value in the array at that index
+        self.array[index] = value
 
     def get(self, key):
-        # Your code here
 
+        # hash the key, map it to the index, and then return the value at that index in the array
+        hashed_key = hash(key)
+        index = hashed_key % len(self.array)
+
+        if self.array[index] is None:
+            return -1
+            
+        return self.array[index]
 
     def remove(self, key: int) -> None:
-        # Your code here
+        hashed_key = hash(key)
+        index = hashed_key % len(self.array)
 
+        self.array[index] = None
+
+
+hash_table = MyHashTable()
+hash_table.put("a", 1)
+hash_table.put("b", 2)
+
+hash_table_2 = MyHashTable()
+alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+for char in alphabet:
+    hash_table_2.put(char, char)
+
+for char in alphabet:
+    print(char, hash_table_2.get(char))
